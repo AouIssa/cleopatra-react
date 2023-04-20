@@ -1,6 +1,7 @@
 import React from "react";
 import "./index.css";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import LandingPage from "./components/LandingPage";
 
 function App() {
@@ -9,7 +10,7 @@ function App() {
       <div className="mx-auto max-w-screen-2xl">
         <Navbar />
         <LandingPage />
-        {/* Other components or routes */}
+        <Footer />
       </div>
     </div>
   );
