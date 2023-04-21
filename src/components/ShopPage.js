@@ -122,7 +122,7 @@ const ShopPage = () => {
             <img
               src={item.image}
               alt={item.title}
-              className="w-full h-80 object-cover mb-4"
+              className="w-5/6 h-4/5 object-cover mb-4"
             />
             <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
             <p className="text-lg font-bold">${item.price}</p>
