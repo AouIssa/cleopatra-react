@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ onSearchInputChange }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [navbarBgColor, setNavbarBgColor] = useState("bg-transparent");
   const [logoScale, setLogoScale] = useState("scale-100");
@@ -27,69 +28,51 @@ const Navbar = () => {
       <div className="container mx-auto px-4 py-2 flex justify-between items-center">
         <div
           className={`transform ${logoScale} transition-transform duration-300`}
-        >
-          {/* Logo or Brand Name */}
-        </div>
+        ></div>
         <button
           type="button"
           className="md:hidden focus:outline-none z-50"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          {isMenuOpen ? (
-            // Close icon
-            <svg
-              className="w-8 h-8 text-black hover:text-blue-500 transition-colors duration-200"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-          ) : (
-            // Hamburger icon
-            <svg
-              className="w-8 h-8 text-black hover:text-blue-500 transition-colors duration-200"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          )}
-        </button>
+        ></button>
         <ul
           className={`${
             isMenuOpen ? "block" : "hidden"
           } md:flex absolute md:relative bg-white md:bg-transparent shadow-md md:shadow-none p-4 md:p-0 mt-2 md:mt-0 rounded-md md:rounded-none left-0 right-0 md:flex-row space-y-4 md:space-y-0 md:space-x-8`}
         >
           <li>
-            <a href="/" className="text-black hover:text-blue-500 text-xl">
+            <Link to="/" className="text-black hover:text-blue-500 text-xl">
               Home
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/shop" className="text-black hover:text-blue-500 text-xl">
+            <Link to="/shop" className="text-black hover:text-blue-500 text-xl">
               Shop
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href="/signin"
+            <Link
+              to="/signin"
               className="text-black hover:text-blue-500 text-xl"
             >
               Sign in
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/about" className="text-black hover:text-blue-500 text-xl">
+            <Link
+              to="/about"
+              className="text-black hover:text-blue-500 text-xl"
+            >
               About Cleopatra
-            </a>
+            </Link>
+          </li>
+          {/* Add the search input */}
+          <li className="flex items-center">
+            <input
+              type="search"
+              className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+              placeholder="Search"
+              onChange={onSearchInputChange}
+            />
           </li>
         </ul>
       </div>
