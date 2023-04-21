@@ -59,7 +59,7 @@ const ShopPage = () => {
   return (
     <div className="w-full">
       <img
-        src="https://via.placeholder.com/150"
+        src="https://i.imgur.com/5Vp8fHk.jpeg"
         alt="Shop Banner"
         className="w-full h-80 object-cover mb-4"
       />
