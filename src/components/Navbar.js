@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = ({ onSearchInputChange }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [navbarBgColor, setNavbarBgColor] = useState("bg-transparent");
   const [logoScale, setLogoScale] = useState("scale-100");
+  const location = useLocation();
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -20,6 +21,8 @@ const Navbar = ({ onSearchInputChange }) => {
       setLogoScale("scale-100");
     }
   };
+
+  const showSearchBar = location.pathname === "/shop";
 
   return (
     <nav
@@ -65,15 +68,17 @@ const Navbar = ({ onSearchInputChange }) => {
               About Cleopatra
             </Link>
           </li>
-          {/* Add the search input */}
-          <li className="flex items-center">
-            <input
-              type="search"
-              className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
-              placeholder="Search"
-              onChange={onSearchInputChange}
-            />
-          </li>
+          {/* Render the search input only on the Shop page */}
+          {showSearchBar && (
+            <li className="flex items-center">
+              <input
+                type="search"
+                className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+                placeholder="Search"
+                onChange={onSearchInputChange}
+              />
+            </li>
+          )}
         </ul>
       </div>
     </nav>
