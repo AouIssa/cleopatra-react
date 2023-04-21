@@ -15,7 +15,7 @@ const ShopPage = () => {
     const fetchItems = async () => {
       try {
         const res = await axios.get("http://localhost:5000/api/items");
-        console.log("Items fetched from API:", res.data); // Add this line
+        console.log("Items fetched from API:", res.data);
         setItems(res.data);
       } catch (error) {
         console.error("Error fetching items:", error);
@@ -63,10 +63,10 @@ const ShopPage = () => {
         alt="Shop Banner"
         className="w-full h-80 object-cover"
       />
-      <div className="w-full flex justify-start mb-6 bg-gray-300">
+      <div className="w-full flex justify-start mb-6 bg-gray-300 flex-wrap">
         <select
           name="color"
-          className="border rounded-lg border-gray-300 p-2 ml-4 bg-gray-300 text-left"
+          className="border-0 rounded-lg border-gray-300 p-2 ml-4 bg-gray-300 text-left mt-4 sm:mt-0 sm:ml-4"
           onChange={handleFilterChange}
         >
           <option value="">Color</option>
@@ -81,7 +81,7 @@ const ShopPage = () => {
         </select>
         <select
           name="size"
-          className="border-0 rounded-lg border-gray-300 p-2 bg-gray-300 text-left"
+          className="border-0 rounded-lg border-gray-300 p-2 bg-gray-300 text-left mt-4 sm:mt-0 sm:ml-4"
           onChange={handleFilterChange}
         >
           <option value="">Size</option>
@@ -92,7 +92,7 @@ const ShopPage = () => {
         </select>
         <select
           name="price"
-          className="border-0 rounded-lg border-gray-300 bg-gray-300 text-center"
+          className="border-0 rounded-lg border-gray-300 bg-gray-300 text-center mt-4 sm:mt-0 sm:ml-4"
           onChange={handleFilterChange}
         >
           <option value="">Price</option>
@@ -104,7 +104,7 @@ const ShopPage = () => {
         </select>
         <select
           name="category"
-          className="border-0 rounded-lg border-gray-300 bg-gray-300 text-center"
+          className="border-0 rounded-lg border-gray-300 bg-gray-300 text-center mt-4 sm:mt-0 sm:ml-4"
           onChange={handleFilterChange}
         >
           <option value="">Category</option>
@@ -113,16 +113,13 @@ const ShopPage = () => {
           <option value="shoes">Shoes</option>
         </select>
       </div>
-      <div className="w-full flex flex-wrap justify-center">
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
         {filteredItems.map((item) => (
-          <div
-            key={item.id}
-            className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 p-4"
-          >
+          <div key={item.id} className="p-4">
             <img
               src={item.image}
               alt={item.title}
-              className="w-5/6 h-4/5 object-cover mb-4"
+              className="w-full h-4/5 object-cover mb-4"
             />
             <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
             <p className="text-lg font-bold">${item.price}</p>
