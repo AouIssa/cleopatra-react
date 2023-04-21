@@ -61,12 +61,12 @@ const ShopPage = () => {
       <img
         src="https://i.imgur.com/5Vp8fHk.jpeg"
         alt="Shop Banner"
-        className="w-full h-80 object-cover mb-4"
+        className="w-full h-80 object-cover"
       />
-      <div className="w-full flex justify-center mb-6">
+      <div className="w-full flex justify-start mb-6 bg-gray-300">
         <select
           name="color"
-          className="border rounded-lg p-2 mr-2"
+          className="border rounded-lg border-gray-300 p-2 ml-4 bg-gray-300 text-left"
           onChange={handleFilterChange}
         >
           <option value="">Color</option>
@@ -81,7 +81,7 @@ const ShopPage = () => {
         </select>
         <select
           name="size"
-          className="border rounded-lg p-2 mr-2"
+          className="border-0 rounded-lg border-gray-300 p-2 bg-gray-300 text-left"
           onChange={handleFilterChange}
         >
           <option value="">Size</option>
@@ -92,7 +92,7 @@ const ShopPage = () => {
         </select>
         <select
           name="price"
-          className="border rounded-lg p-2 mr-2"
+          className="border-0 rounded-lg border-gray-300 bg-gray-300 text-center"
           onChange={handleFilterChange}
         >
           <option value="">Price</option>
@@ -104,7 +104,7 @@ const ShopPage = () => {
         </select>
         <select
           name="category"
-          className="border rounded-lg p-2"
+          className="border-0 rounded-lg border-gray-300 bg-gray-300 text-center"
           onChange={handleFilterChange}
         >
           <option value="">Category</option>
