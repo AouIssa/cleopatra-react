@@ -57,7 +57,7 @@ const ShopPage = () => {
   const filteredItems = filterItems();
 
   return (
-    <div className="w-full">
+    <div className="w-full mb-10">
       <img
         src="https://i.imgur.com/5Vp8fHk.jpeg"
         alt="Shop Banner"
