@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import items from './items.js';
+import { Card, Button, Input, Spin, Empty, notification, Select } from 'antd';
+import { LoadingOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 
-const ShopPage = () => {
-  const [items, setItems] = useState([]);
+const { Option } = Select;
+
+const ShopPage = ({ updateCart }) => {
+  const [shopItems, setShopItems] = useState(items);
   const [searchInput, setSearchInput] = useState("");
   const [filterOptions, setFilterOptions] = useState({
     color: "",
@@ -10,121 +14,165 @@ const ShopPage = () => {
     price: "",
     category: "",
   });
-
-  useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const res = await axios.get("http://localhost:5000/api/items");
-        console.log("Items fetched from API:", res.data);
-        setItems(res.data);
-      } catch (error) {
-        console.error("Error fetching items:", error);
-      }
-    };
-
-    fetchItems();
-  }, []);
+  const [loading, setLoading] = useState(false);
+  const [filteredItems, setFilteredItems] = useState([]);
+  const [cartItems, setCartItems] = useState({});
 
   const handleSearchInputChange = (e) => {
     setSearchInput(e.target.value);
   };
 
-  const handleFilterChange = (e) => {
-    setFilterOptions({ ...filterOptions, [e.target.name]: e.target.value });
+  const handleFilterChange = (value, prop) => {
+    setFilterOptions({ ...filterOptions, [prop]: value });
+  };
+
+  const clearFilters = () => {
+    setFilterOptions({
+      color: "",
+      size: "",
+      price: "",
+      category: "",
+    });
+  };
+
+  const addToCart = (item) => {
+    // Get the current quantity of the item in the cart
+    const currentQuantity = cartItems[item.id] || 0;
+
+    updateCart(prevCartItems => {
+      const currentQuantity = prevCartItems[item.id] || 0;
+      return {
+        ...prevCartItems,
+        [item.id]: currentQuantity + 1,
+      };
+    });
+
+
+    // Handle add to cart logic here
+    notification.open({
+      message: 'Item Added to Cart',
+      description: `You have added ${item.title} to your cart.`,
+      icon: <ShoppingCartOutlined style={{ color: '#108ee9' }} />,
+    });
   };
 
   const filterItems = () => {
-    return items.filter((item) => {
+    setLoading(true);
+    // Simulate a delay for loading
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+
+    return shopItems.filter((item) => {
       const { color, size, price, category } = filterOptions;
-      const matchesSearch = item.title
-        .toLowerCase()
-        .includes(searchInput.toLowerCase());
+      const matchesSearch = item.title.toLowerCase().includes(searchInput.toLowerCase());
       const matchesColor = !color || item.color === color;
       const matchesSize = !size || item.size === size;
       const matchesPrice = !price || item.price <= price;
       const matchesCategory = !category || item.category === category;
 
-      return (
-        matchesSearch &&
-        matchesColor &&
-        matchesSize &&
-        matchesPrice &&
-        matchesCategory
-      );
+      return matchesSearch && matchesColor && matchesSize && matchesPrice && matchesCategory;
     });
   };
 
-  const filteredItems = filterItems();
+  useEffect(() => {
+    setFilteredItems(filterItems());
+  }, [searchInput, filterOptions]);
 
   return (
-    <div className="w-full mb-10">
-      <img
-        src="https://i.imgur.com/5Vp8fHk.jpeg"
-        alt="Shop Banner"
-        className="w-full h-80 object-cover"
-      />
-      <div className="w-full flex justify-start mb-6 bg-gray-300 flex-wrap">
-        <select
-          name="color"
-          className="border-0 rounded-lg border-gray-300 p-2 ml-4 bg-gray-300 text-left mt-4 sm:mt-0 sm:ml-4"
-          onChange={handleFilterChange}
+    <div className="flex flex-col items-center justify-center w-full mb-10">
+      <img src="https://i.imgur.com/5Vp8fHk.jpeg" alt="Shop Banner" className="w-full h-80 object-cover" />
+      <div className="flex flex-wrap items-center justify-around w-full p-4 bg-gray-300">
+        {/* Search Input */}
+        <Input.Search
+          className="my-2 sm:my-0 mx-2 flex-1"
+          placeholder="Search items..."
+          value={searchInput}
+          onChange={handleSearchInputChange}
+        />
+        {/* Color Filter */}
+        <Select
+          className="mt-4 sm:mt-0 sm:ml-4"
+          placeholder="Color"
+          onChange={(value) => handleFilterChange(value, "color")}
         >
-          <option value="">Color</option>
-          <option value="red">Red</option>
-          <option value="blue">Blue</option>
-          <option value="green">Green</option>
-          <option value="black">Black</option>
-          <option value="yellow">Yellow</option>
-          <option value="white">White</option>
-          <option value="pink">Pink</option>
-          <option value="purple">Purple</option>
-        </select>
-        <select
-          name="size"
-          className="border-0 rounded-lg border-gray-300 p-2 bg-gray-300 text-left mt-4 sm:mt-0 sm:ml-4"
-          onChange={handleFilterChange}
+          <Option value="">All</Option>
+          <Option value="red">Red</Option>
+          <Option value="blue">Blue</Option>
+          <Option value="green">Green</Option>
+          <Option value="black">Black</Option>
+          <Option value="yellow">Yellow</Option>
+          <Option value="white">White</Option>
+          <Option value="pink">Pink</Option>
+          <Option value="purple">Purple</Option>
+        </Select>
+        {/* Size Filter */}
+        <Select
+          className="mt-4 sm:mt-0 sm:ml-4"
+          placeholder="Size"
+          onChange={(value) => handleFilterChange(value, "size")}
         >
-          <option value="">Size</option>
-          <option value="S">S</option>
-          <option value="M">M</option>
-          <option value="L">L</option>
-          <option value="XL">XL</option>
-        </select>
-        <select
-          name="price"
-          className="border-0 rounded-lg border-gray-300 bg-gray-300 text-center mt-4 sm:mt-0 sm:ml-4"
-          onChange={handleFilterChange}
+          <Option value="">All</Option>
+          <Option value="S">S</Option>
+          <Option value="M">M</Option>
+          <Option value="L">L</Option>
+          <Option value="XL">XL</Option>
+        </Select>
+        {/* Price Filter */}
+        <Select
+          className="mt-4 sm:mt-0 sm:ml-4"
+          placeholder="Price"
+          onChange={(value) => handleFilterChange(value, "price")}
         >
-          <option value="">Price</option>
-          <option value="10">Up to $10</option>
-          <option value="20">Up to $20</option>
-          <option value="50">Up to $50</option>
-          <option value="100">Up to $100</option>
-          <option value="150">Up to $150</option>
-        </select>
-        <select
-          name="category"
-          className="border-0 rounded-lg border-gray-300 bg-gray-300 text-center mt-4 sm:mt-0 sm:ml-4"
-          onChange={handleFilterChange}
+          <Option value="">All</Option>
+          <Option value="10">Up to $10</Option>
+          <Option value="20">Up to $20</Option>
+          <Option value="50">Up to $50</Option>
+          <Option value="100">Up to $100</Option>
+          <Option value="150">Up to $150</Option>
+        </Select>
+        {/* Category Filter */}
+        <Select
+          className="mt-4 sm:mt-0 sm:ml-4"
+          placeholder="Category"
+          onChange={(value) => handleFilterChange(value, "category")}
         >
-          <option value="">Category</option>
-          <option value="clothing">Clothing</option>
-          <option value="accessories">Accessories</option>
-          <option value="shoes">Shoes</option>
-        </select>
+          <Option value="">All</Option>
+          <Option value="clothing">Clothing</Option>
+          <Option value="accessories">Accessories</Option>
+          <Option value="shoes">Shoes</Option>
+        </Select>
+        {/* Clear Filters Button */}
+        <Button className="my-2 sm:my-0 mx-2" onClick={clearFilters}>Clear Filters</Button>
       </div>
-      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-        {filteredItems.map((item) => (
-          <div key={item.id} className="p-4">
-            <img
-              src={item.image}
-              alt={item.title}
-              className="w-full h-4/5 object-cover mb-4"
-            />
-            <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
-            <p className="text-lg font-bold">${item.price}</p>
-          </div>
-        ))}
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 p-4">
+        {loading ? (
+          <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
+        ) : filteredItems.length > 0 ? (
+          filteredItems.map((item) => (
+            <Card
+              key={item.id}
+              hoverable
+              style={{ width: 240, margin: '15px' }}
+              cover={<img alt={item.title} src={item.image} className="h-48 object-cover" />}
+            >
+              <Card.Meta
+                title={<h2 className="text-xl font-semibold mb-2">{item.title}</h2>}
+                description={`$${item.price}`}
+              />
+              <Button type="primary" block
+                onClick={() => addToCart(item)}
+                className="mt-2"
+              >
+                {cartItems[item.id] ? `In Cart: ${cartItems[item.id]}` : 'Add to Cart'}
+              </Button>
+
+            </Card>
+          ))
+
+        ) : (
+          <Empty description="No items match your search and filter criteria." />
+        )}
       </div>
     </div>
   );

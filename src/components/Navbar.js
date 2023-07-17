@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { ShoppingCartOutlined } from '@ant-design/icons';
 import logo from "../assets/logo.jpg";
 
-const Navbar = ({ onSearchInputChange }) => {
+const Navbar = ({ onSearchInputChange, cartItems }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [navbarBgColor, setNavbarBgColor] = useState("bg-transparent");
   const [logoScale, setLogoScale] = useState("scale-100");
@@ -53,9 +54,8 @@ const Navbar = ({ onSearchInputChange }) => {
           </div>
         </button>
         <ul
-          className={`${
-            isMenuOpen ? "block" : "hidden"
-          } md:flex absolute md:relative bg-gray-100 md:bg-transparent shadow-md md:shadow-none p-4 md:p-0 mt-2 md:mt-0 rounded-md md:rounded-none left-0 right-0 md:flex-row space-y-4 md:space-y-0 md:space-x-8 transition-all duration-300`}
+          className={`${isMenuOpen ? "block" : "hidden"
+            } md:flex absolute md:relative bg-gray-100 md:bg-transparent shadow-md md:shadow-none p-4 md:p-0 mt-2 md:mt-0 rounded-md md:rounded-none left-0 right-0 md:flex-row space-y-4 md:space-y-0 md:space-x-8 transition-all duration-300`}
         >
           <li>
             <Link to="/" className="text-black hover:text-blue-500 text-xl">
@@ -83,18 +83,13 @@ const Navbar = ({ onSearchInputChange }) => {
               About Cleopatra
             </Link>
           </li>
-        </ul>
-        {/* Render the search input only on the Shop page */}
-        {showSearchBar && (
-          <div className="hidden md:block">
-            <input
-              type="search"
-              className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
-              placeholder="Search"
-              onChange={onSearchInputChange}
-            />
+          <div className="md:flex items-center">
+            <Link to="/cart" className="text-black hover:text-blue-500 text-xl flex items-center">
+              <ShoppingCartOutlined />
+              <span className="ml-2">{cartItems ? Object.values(cartItems).reduce((a, b) => a + b, 0) : 0}</span>
+            </Link>
           </div>
-        )}
+        </ul>
       </div>
     </nav>
   );
