@@ -80,9 +80,9 @@ const ShopPage = ({ updateCart }) => {
   }, [searchInput, filterOptions]);
 
   return (
-    <div className="flex flex-col items-center justify-center w-full mb-10">
+    <div className="flex flex-col items-center justify-center w-full min-h-screen">
       <img src="https://i.imgur.com/5Vp8fHk.jpeg" alt="Shop Banner" className="w-full h-80 object-cover" />
-      <div className="flex flex-wrap items-center justify-around w-full p-4 bg-gray-300">
+      <div className="flex flex-wrap items-center justify-around w-full p-4 bg-gray-300 ">
         {/* Search Input */}
         <Input.Search
           className="my-2 sm:my-0 mx-2 flex-1"
@@ -145,7 +145,7 @@ const ShopPage = ({ updateCart }) => {
         {/* Clear Filters Button */}
         <Button className="my-2 sm:my-0 mx-2" onClick={clearFilters}>Clear Filters</Button>
       </div>
-      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 p-4">
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 p-4 overflow-hidden">
         {loading ? (
           <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
         ) : filteredItems.length > 0 ? (
