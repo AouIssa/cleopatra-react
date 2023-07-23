@@ -2,11 +2,17 @@ import React, { useState, useEffect } from "react";
 import items from './items.js';
 import { Card, Button, Input, Spin, Empty, notification, Select } from 'antd';
 import { LoadingOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { SearchOutlined, StarOutlined, HeartOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 
 const ShopPage = ({ updateCart }) => {
-  const [shopItems, setShopItems] = useState(items);
+  const [shopItems, setShopItems] = useState(
+    items.map(item => ({
+      ...item,
+      rating: Math.round((Math.random() * 4 + 1) * 10) / 10
+    }))
+  );
   const [searchInput, setSearchInput] = useState("");
   const [filterOptions, setFilterOptions] = useState({
     color: "",
@@ -47,7 +53,6 @@ const ShopPage = ({ updateCart }) => {
       };
     });
 
-
     // Handle add to cart logic here
     notification.open({
       message: 'Item Added to Cart',
@@ -55,6 +60,8 @@ const ShopPage = ({ updateCart }) => {
       icon: <ShoppingCartOutlined style={{ color: '#108ee9' }} />,
     });
   };
+
+
 
   const filterItems = () => {
     setLoading(true);
@@ -84,12 +91,15 @@ const ShopPage = ({ updateCart }) => {
       <img src="https://i.imgur.com/5Vp8fHk.jpeg" alt="Shop Banner" className="w-full h-80 object-cover" />
       <div className="flex flex-wrap items-center justify-around w-full p-4 bg-gray-300 ">
         {/* Search Input */}
-        <Input.Search
+        <Input
           className="my-2 sm:my-0 mx-2 flex-1"
           placeholder="Search items..."
           value={searchInput}
           onChange={handleSearchInputChange}
+          size="large"
+          suffix={<SearchOutlined style={{ fontSize: '1.5em' }} />}
         />
+
         {/* Color Filter */}
         <Select
           className="mt-4 sm:mt-0 sm:ml-4"
@@ -157,17 +167,34 @@ const ShopPage = ({ updateCart }) => {
               cover={<img alt={item.title} src={item.image} className="h-48 object-cover" />}
             >
               <Card.Meta
-                title={<h2 className="text-xl font-semibold mb-2">{item.title}</h2>}
-                description={`$${item.price}`}
+                title={
+                  <div className="flex justify-between items-start">
+                    <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
+                    <div className="text-gray-500">
+                      {item.rating.toFixed(1)} <StarOutlined />
+                    </div>
+                  </div>
+                }
+                description={
+                  <div className="mb-2">
+                    <p className="text-lg font-bold">${item.price}</p>
+                    <p className="text-sm text-gray-500">{item.availability}</p>
+                  </div>
+                }
               />
-              <Button type="primary" block
+              <Button
+                icon={<ShoppingCartOutlined />}
+                block
                 onClick={() => addToCart(item)}
-                className="mt-2"
+                className="mt-2 bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 transition-colors duration-300 py-2"
               >
                 {cartItems[item.id] ? `In Cart: ${cartItems[item.id]}` : 'Add to Cart'}
               </Button>
-
+              <div className="flex justify-end mt-2">
+                <HeartOutlined className="text-red-500 hover:text-red-600 cursor-pointer" />
+              </div>
             </Card>
+
           ))
 
         ) : (
