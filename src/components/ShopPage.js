@@ -88,7 +88,7 @@ const ShopPage = ({ updateCart }) => {
 
   return (
     <div className="flex flex-col items-center justify-center w-full min-h-screen">
-      <img src="https://i.imgur.com/5Vp8fHk.jpeg" alt="Shop Banner" className="w-full h-80 object-cover" />
+      <img src="https://i.imgur.com/5Vp8fHk.jpeg" alt="Shop Banner" className="w-full h-[70vh] object-cover object-bottom" />
       <div className="flex flex-wrap items-center justify-around w-full p-4 bg-gray-300 ">
         {/* Search Input */}
         <Input
