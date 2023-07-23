@@ -1,8 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import items from './items.js';
-import { Card, Button, Empty } from 'antd';
-import { Row, Col } from 'antd';
+import { Card, Button, Empty, Divider, Modal } from 'antd';
+import { Row, Col, Typography, Space } from 'antd';
+import { TagsOutlined, DollarOutlined, ArrowsAltOutlined } from '@ant-design/icons';
+
+const { Title, Text } = Typography;
+
+const QuantityInput = ({ defaultValue, onChange }) => (
+    <Space>
+        <Button onClick={() => onChange(Math.max(0, defaultValue - 1))}>-</Button>
+        <div>{defaultValue}</div>
+        <Button onClick={() => onChange(defaultValue + 1)}>+</Button>
+    </Space>
+);
 
 const CartPage = ({ cartItems, updateCart }) => {
     const cartItemIds = Object.keys(cartItems || {});
@@ -25,27 +36,63 @@ const CartPage = ({ cartItems, updateCart }) => {
                                 key={id}
                                 className="mb-4"
                             >
-                                <Row>
-                                    <Col span={16}>
-                                        <h2>{item.title}</h2>
-                                        <p>Quantity: {cartItems[id]}</p>
-                                        <p>Price: ${item.price}</p>
-                                        <p>Total: ${item.price * cartItems[id]}</p>
+                                <Row gutter={16}>
+                                    <Col span={6}>
+                                        <img src={item.image} alt={item.title} style={{ maxWidth: '100%' }} />
                                     </Col>
-                                    <Col span={8} className="flex items-center justify-end">
-                                        <Button danger onClick={() => updateCart(prevCartItems => {
-                                            const updatedCartItems = { ...prevCartItems };
-                                            delete updatedCartItems[id];
-                                            return updatedCartItems;
-                                        })}>Remove</Button>
+                                    <Col span={12}>
+                                        <Space direction="vertical" size="middle">
+                                            <Title level={4}>{item.title}</Title>
+                                            <Text><TagsOutlined /> Color: {item.color}</Text>
+                                            <Text><ArrowsAltOutlined /> Size: {item.size}</Text>
+                                            <Text type="secondary"><DollarOutlined /> Price: ${item.price}</Text>
+                                        </Space>
+                                    </Col>
+                                    <Col span={6} className="flex flex-col items-end justify-around">
+                                        <Space direction="vertical" size="middle">
+                                            <QuantityInput
+                                                defaultValue={cartItems[id]}
+                                                onChange={value => {
+                                                    if (value === 0) {
+                                                        Modal.confirm({
+                                                            title: 'Do you want to remove this item from your cart?',
+                                                            onOk: () => updateCart(prevCartItems => {
+                                                                const updatedCartItems = { ...prevCartItems };
+                                                                delete updatedCartItems[id];
+                                                                return updatedCartItems;
+                                                            }),
+                                                        });
+                                                    } else {
+                                                        updateCart(prevCartItems => ({ ...prevCartItems, [id]: value }))
+                                                    }
+                                                }}
+                                            />
+                                            <Text strong>Total: ${item.price * cartItems[id]}</Text>
+                                            <Button danger onClick={() => updateCart(prevCartItems => {
+                                                const updatedCartItems = { ...prevCartItems };
+                                                delete updatedCartItems[id];
+                                                return updatedCartItems;
+                                            })}>Remove</Button>
+                                        </Space>
                                     </Col>
                                 </Row>
                             </Card>
                         );
                     })}
-                    <div className="flex justify-end mt-6">
-                        <h2 className="text-xl font-bold">Total: ${totalPrice.toFixed(2)}</h2>
-                    </div>
+                    <Divider />
+                    <Row justify="end" gutter={16}>
+                        <Col>
+                            <Link to="/shop">
+                                <Button>Continue Shopping</Button>
+                            </Link>
+                        </Col>
+                        <Col>
+                            <Text strong className="text-xl font-bold">Total: ${totalPrice.toFixed(2)}</Text>
+                        </Col>
+                        <Col>
+                            <Button type="primary" size="large">Checkout</Button>
+                        </Col>
+                    </Row>
                 </div>
             ) : (
                 <Empty
