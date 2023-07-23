@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import items from './items.js';
 import { Card, Button, Input, Spin, Empty, notification, Select } from 'antd';
 import { LoadingOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { SearchOutlined, StarOutlined, HeartOutlined } from '@ant-design/icons';
+import { SearchOutlined, StarFilled, HeartOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 
@@ -10,7 +10,7 @@ const ShopPage = ({ updateCart }) => {
   const [shopItems, setShopItems] = useState(
     items.map(item => ({
       ...item,
-      rating: Math.round((Math.random() * 4 + 1) * 10) / 10
+      rating: Math.round((Math.random() * 2.5 + 2.5) * 10) / 10
     }))
   );
   const [searchInput, setSearchInput] = useState("");
@@ -163,7 +163,7 @@ const ShopPage = ({ updateCart }) => {
             <Card
               key={item.id}
               hoverable
-              style={{ width: 240, margin: '15px' }}
+              style={{ width: 240, margin: '15px', backgroundColor: '#F5F5F5' }}
               cover={<img alt={item.title} src={item.image} className="h-48 object-cover" />}
             >
               <Card.Meta
@@ -171,7 +171,7 @@ const ShopPage = ({ updateCart }) => {
                   <div className="flex justify-between items-start">
                     <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
                     <div className="text-gray-500">
-                      {item.rating.toFixed(1)} <StarOutlined />
+                      {item.rating.toFixed(1)} <StarFilled style={{ color: 'yellow' }} />
                     </div>
                   </div>
                 }
@@ -194,6 +194,7 @@ const ShopPage = ({ updateCart }) => {
                 <HeartOutlined className="text-red-500 hover:text-red-600 cursor-pointer" />
               </div>
             </Card>
+
 
           ))
 
