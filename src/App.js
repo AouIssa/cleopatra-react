@@ -6,6 +6,7 @@ import LandingPage from "./components/LandingPage";
 import ShopPage from "./components/ShopPage";
 import CartPage from "./components/CartPage";
 import SignInPage from "./components/SignInPage";
+import CheckoutPage from "./components/CheckoutPage";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <Route path="/shop" element={<ShopPage updateCart={setCartItems} />} />
             <Route path="/cart" element={<CartPage cartItems={cartItems} updateCart={updateCart} />} />
             <Route path="/signin" element={<SignInPage />} />
+            <Route path="/checkout" element={<CheckoutPage cartItems={cartItems} />} />
           </Routes>
           <Footer />
         </div>

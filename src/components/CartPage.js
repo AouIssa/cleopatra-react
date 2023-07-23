@@ -40,7 +40,7 @@ const CartPage = ({ cartItems, updateCart }) => {
                                     <Col span={6}>
                                         <img src={item.image} alt={item.title} style={{ maxWidth: '100%' }} />
                                     </Col>
-                                    <Col span={12}>
+                                    <Col span={8}>
                                         <Space direction="vertical" size="middle">
                                             <Title level={4}>{item.title}</Title>
                                             <Text><TagsOutlined /> Color: {item.color}</Text>
@@ -48,25 +48,27 @@ const CartPage = ({ cartItems, updateCart }) => {
                                             <Text type="secondary"><DollarOutlined /> Price: ${item.price}</Text>
                                         </Space>
                                     </Col>
+                                    <Col span={4} className="flex flex-col items-center justify-center">
+                                        <QuantityInput
+                                            defaultValue={cartItems[id]}
+                                            onChange={value => {
+                                                if (value === 0) {
+                                                    Modal.confirm({
+                                                        title: 'Do you want to remove this item from your cart?',
+                                                        onOk: () => updateCart(prevCartItems => {
+                                                            const updatedCartItems = { ...prevCartItems };
+                                                            delete updatedCartItems[id];
+                                                            return updatedCartItems;
+                                                        }),
+                                                    });
+                                                } else {
+                                                    updateCart(prevCartItems => ({ ...prevCartItems, [id]: value }))
+                                                }
+                                            }}
+                                        />
+                                    </Col>
                                     <Col span={6} className="flex flex-col items-end justify-around">
                                         <Space direction="vertical" size="middle">
-                                            <QuantityInput
-                                                defaultValue={cartItems[id]}
-                                                onChange={value => {
-                                                    if (value === 0) {
-                                                        Modal.confirm({
-                                                            title: 'Do you want to remove this item from your cart?',
-                                                            onOk: () => updateCart(prevCartItems => {
-                                                                const updatedCartItems = { ...prevCartItems };
-                                                                delete updatedCartItems[id];
-                                                                return updatedCartItems;
-                                                            }),
-                                                        });
-                                                    } else {
-                                                        updateCart(prevCartItems => ({ ...prevCartItems, [id]: value }))
-                                                    }
-                                                }}
-                                            />
                                             <Text strong>Total: ${item.price * cartItems[id]}</Text>
                                             <Button danger onClick={() => updateCart(prevCartItems => {
                                                 const updatedCartItems = { ...prevCartItems };
@@ -90,7 +92,9 @@ const CartPage = ({ cartItems, updateCart }) => {
                             <Text strong className="text-xl font-bold">Total: ${totalPrice.toFixed(2)}</Text>
                         </Col>
                         <Col>
-                            <Button type="primary" size="large">Checkout</Button>
+                            <Link to="/checkout">
+                                <Button type="primary" size="large">Checkout</Button>
+                            </Link>
                         </Col>
                     </Row>
                 </div>

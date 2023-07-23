@@ -2,7 +2,7 @@
 const items = [
     {
         id: 1,
-        title: "Classic White Dress",
+        title: "Classic Dress",
         price: 50.00,
         image: "https://i.imgur.com/nJntMWB.jpeg",
         color: "white",
