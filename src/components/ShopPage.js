@@ -186,10 +186,14 @@ const ShopPage = ({ updateCart }) => {
                 icon={<ShoppingCartOutlined />}
                 block
                 onClick={() => addToCart(item)}
-                className="mt-2 bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 transition-colors duration-300 py-2"
+                className="mt-2 bg-gray-300 text-black hover:bg-gray-300 active:bg-gray-500 transition-colors duration-300 py-2 flex items-center justify-center"
               >
-                {cartItems[item.id] ? `In Cart: ${cartItems[item.id]}` : 'Add to Cart'}
+                <span className="text-center">
+                  {cartItems[item.id] ? `In Cart: ${cartItems[item.id]}` : 'Add to Cart'}
+                </span>
               </Button>
+
+
               <div className="flex justify-end mt-2">
                 <HeartOutlined className="text-red-500 hover:text-red-600 cursor-pointer" />
               </div>
