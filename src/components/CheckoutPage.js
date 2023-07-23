@@ -19,7 +19,7 @@ const CheckoutPage = ({ cartItems }) => {
     console.log("Total price:", total);
 
     return (
-        <div className="min-h-screen w-full">
+        <div className="min-h-screen w-full pb-20">
             <img src="https://i.imgur.com/5Vp8fHk.jpeg" alt="Shop Banner" className="w-full h-[70vh] object-cover object-bottom" />
             <div className="pt-6 flex items-start">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-white p-6 rounded shadow flex-1 mr-4">
