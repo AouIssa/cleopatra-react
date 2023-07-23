@@ -30,13 +30,12 @@ const CheckoutPage = ({ cartItems }) => {
                     <input {...register("country")} placeholder="Country" className="bg-gray-200 p-2 rounded" />
                     <input {...register("zipCode")} placeholder="Zip code" className="bg-gray-200 p-2 rounded" />
                 </div>
-                <input {...register("address")} placeholder="Address" className="bg-gray-200 p-2 rounded" />
+                <input {...register("address")} placeholder="Address" className="bg-gray-200 p-2 rounded w-full" />
                 <div className="grid grid-cols-2 gap-4">
                     <input {...register("phone")} placeholder="Phone" className="bg-gray-200 p-2 rounded" />
                     <input {...register("email")} placeholder="Email" className="bg-gray-200 p-2 rounded" />
                 </div>
-                <textarea {...register("orderNotes")} placeholder="Order notes" className="bg-gray-200 p-2 rounded h-24" />
-                <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded">Place Order</button>
+                <input {...register("orderNotes")} placeholder="Order notes" className="bg-gray-200 p-2 rounded w-full" />
             </form>
             <div className="bg-white p-6 rounded shadow">
                 <h1 className="text-2xl font-bold mb-4 text-gray-800">Order Summary</h1>
