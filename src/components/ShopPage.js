@@ -164,7 +164,7 @@ const ShopPage = ({ updateCart }) => {
               key={item.id}
               hoverable
               style={{ width: 240, margin: '15px', backgroundColor: '#F5F5F5' }}
-              cover={<img alt={item.title} src={item.image} className="h-48 object-cover" />}
+              cover={<img alt={item.title} src={item.image} className="h-48 object-contain" />}
             >
               <Card.Meta
                 title={

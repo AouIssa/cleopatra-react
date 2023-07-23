@@ -19,7 +19,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <div className="mx-auto max-w-screen-2xl">
+        <div className="mx-auto max-w-full">
           <Navbar cartItems={cartItems} />
           <Routes>
             <Route path="/" element={<LandingPage />} />
